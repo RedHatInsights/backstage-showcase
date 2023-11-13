@@ -41,6 +41,7 @@
 
 REPO="${QUAY_REPOSITORY:-app-sre/redhat-backstage-build}"
 
+# Use podman or docker
 container=$(which podman 2>/dev/null || which docker 2>/dev/null)
 echo "Using ${container} to build containers."
 

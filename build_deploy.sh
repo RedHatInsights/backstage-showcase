@@ -41,11 +41,14 @@
 
 REPO="${QUAY_REPOSITORY:-app-sre/redhat-backstage-build}"
 
+container=$(which podman 2>/dev/null || which docker 2>/dev/null)
+echo "Using ${container} to build containers."
+
 # The version should be the short hash from git. This is what the deployent process expects.
 VERSION="$(git log --pretty=format:'%h' -n 1)"
 
-podman build -f docker/Dockerfile -t "quay.io/${REPO}:${VERSION}" .
-podman tag "quay.io/${REPO}:${VERSION}" "quay.io/${REPO}:latest"
+$container build -f docker/Dockerfile -t "quay.io/${REPO}:${VERSION}" .
+$container tag "quay.io/${REPO}:${VERSION}" "quay.io/${REPO}:latest"
 
 # Log in to the image registry:
 if [ -z "${QUAY_USER}" ]; then
@@ -59,5 +62,5 @@ if [ -z "${QUAY_TOKEN}" ]; then
   exit 1
 fi
 
-podman push --creds="${QUAY_USER}:${QUAY_TOKEN}" "quay.io/${REPO}:${VERSION}"
-podman push --creds="${QUAY_USER}:${QUAY_TOKEN}" "quay.io/${REPO}:latest"
+$container push --creds="${QUAY_USER}:${QUAY_TOKEN}" "quay.io/${REPO}:${VERSION}"
+$container push --creds="${QUAY_USER}:${QUAY_TOKEN}" "quay.io/${REPO}:latest"

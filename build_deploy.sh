@@ -39,7 +39,7 @@
 # note that you might need to change the GOROOT below or install Go in the specified path.
 #
 
-REPO="${QUAY_REPOSITORY:-app-sre/redhat-backstage}"
+REPO="${QUAY_REPOSITORY:-app-sre/backstage-showcase}"
 
 # Use podman or docker
 container=$(which podman 2>/dev/null || which docker 2>/dev/null)

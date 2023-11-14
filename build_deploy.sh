@@ -39,7 +39,7 @@
 # note that you might need to change the GOROOT below or install Go in the specified path.
 #
 
-REPO="${QUAY_REPOSITORY:-app-sre/redhat-backstage-build}"
+REPO="${QUAY_REPOSITORY:-app-sre/redhat-backstage}"
 
 # Use podman or docker
 container=$(which podman 2>/dev/null || which docker 2>/dev/null)
@@ -47,9 +47,6 @@ echo "Using ${container} to build containers."
 
 # The version should be the short hash from git. This is what the deployent process expects.
 VERSION="$(git log --pretty=format:'%h' -n 1)"
-
-$container build -f docker/Dockerfile -t "quay.io/${REPO}:${VERSION}" .
-$container tag "quay.io/${REPO}:${VERSION}" "quay.io/${REPO}:latest"
 
 # Log in to the image registry:
 if [ -z "${QUAY_USER}" ]; then
@@ -62,6 +59,9 @@ if [ -z "${QUAY_TOKEN}" ]; then
   echo "Make sure to set the 'QUAY_TOKEN' environment variable."
   exit 1
 fi
+
+$container build -f docker/Dockerfile -t "quay.io/${REPO}:${VERSION}" .
+$container tag "quay.io/${REPO}:${VERSION}" "quay.io/${REPO}:latest"
 
 $container push --creds="${QUAY_USER}:${QUAY_TOKEN}" "quay.io/${REPO}:${VERSION}"
 $container push --creds="${QUAY_USER}:${QUAY_TOKEN}" "quay.io/${REPO}:latest"

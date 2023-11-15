@@ -3,7 +3,7 @@ app:
   baseUrl: http://localhost:3000
 
 organization:
-  name: My Org
+  name: ${ORGANIZATION_NAME}
 
 backend:
   auth:

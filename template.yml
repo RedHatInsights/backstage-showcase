@@ -101,3 +101,11 @@ objects:
           - name: app-config
             mountPath: /app/app-config.yaml
             subPath: app-config.yaml
+- apiVersion: v1
+  kind: Configmap
+  metadata:
+    name: backstage-app-config
+  labels:
+    app.kubernetes.io/name: backstage
+  data:
+    BACKEND_AUTH_SECRET: temp

@@ -109,3 +109,4 @@ objects:
     app.kubernetes.io/name: backstage
   data:
     BACKEND_AUTH_SECRET: temp
+    ORGANIZATION_NAME: sig-Red-Hat-hts

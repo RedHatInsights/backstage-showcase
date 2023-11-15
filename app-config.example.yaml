@@ -7,7 +7,7 @@ app:
       writeKey: temp
 
 organization:
-  name: My Org
+  name: ${ORGANIZATION_NAME}
 
 backend:
   auth:

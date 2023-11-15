@@ -12,6 +12,8 @@ parameters:
   value: backstage-db
 - name: BACKEND_AUTH_SECRET
   value: temp
+- name: ORG_NAME
+  value: sig-Red-Hat-hts
 objects:
 - apiVersion: v1
   kind: ServiceAccount
@@ -110,7 +112,7 @@ objects:
     app.kubernetes.io/name: backstage
   data:
     BACKEND_AUTH_SECRET: ${BACKEND_AUTH_SECRET}
-    ORGANIZATION_NAME: sig-Red-Hat-hts
+    ORGANIZATION_NAME: ${ORG_NAME}
 - apiVersion: v1
   kind: ConfigMap
   metadata:

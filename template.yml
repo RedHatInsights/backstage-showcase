@@ -103,7 +103,7 @@ objects:
             mountPath: /app/app-config.yaml
             subPath: app-config.yaml
 - apiVersion: v1
-  kind: Configmap
+  kind: ConfigMap
   metadata:
     name: ${APP_CONFIG_VALUES}
   labels:

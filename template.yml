@@ -10,6 +10,8 @@ parameters:
   value: latest
 - name: DB_SECRET_NAME
   value: backstage-db
+- name: APP_CONFIG_VALUES
+  value: backstage-app-config
 objects:
 - apiVersion: v1
   kind: ServiceAccount
@@ -34,7 +36,7 @@ objects:
   kind: Deployment
   metadata:
     name: backstage
-    labels: 
+    labels:
       app.kubernetes.io/name: backstage
   spec:
     replicas: 1
@@ -61,6 +63,10 @@ objects:
           args:
           - --config
           - /app/app-config.yaml
+          envFrom:
+            - configMapRef:
+                name: ${APP_CONFIG_VALUES}
+                optional: true # TODO: Change this?
           env:
           - name: POSTGRES_HOST
             valueFrom:

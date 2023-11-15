@@ -10,6 +10,9 @@ organization:
   name: My Org
 
 backend:
+  auth:
+    keys:
+      - secret: ${BACKEND_AUTH_SECRET}
   baseUrl: http://localhost:7007
   listen:
     port: 7007

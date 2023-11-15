@@ -11,7 +11,7 @@ parameters:
 - name: DB_SECRET_NAME
   value: backstage-db
 - name: APP_CONFIG_VALUES
-  value: backstage-app-config
+  value: backstage-app-config-map
 objects:
 - apiVersion: v1
   kind: ServiceAccount
@@ -62,7 +62,8 @@ objects:
           - packages/backend
           args:
           - --config
-          - /app/app-config.yaml
+          - /opt/app-root/src/app-config.yaml
+          # - /app/app-config.yaml
           envFrom:
             - configMapRef:
                 name: ${APP_CONFIG_VALUES}
@@ -104,7 +105,7 @@ objects:
 - apiVersion: v1
   kind: Configmap
   metadata:
-    name: backstage-app-config
+    name: ${APP_CONFIG_VALUES}
   labels:
     app.kubernetes.io/name: backstage
   data:

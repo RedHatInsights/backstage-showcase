@@ -64,7 +64,7 @@ objects:
           # - /opt/app-root/src/app-config.yaml
           env:
           - name: PGSSLMODE
-            value: require
+            value: prefer
           - name: POSTGRES_HOST
             valueFrom:
               secretKeyRef:

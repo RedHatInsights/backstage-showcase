@@ -62,9 +62,6 @@ objects:
           - --config
           - /app/app-config.yaml
           # - /opt/app-root/src/app-config.yaml
-          envFrom:
-            - secretKeyRef:
-                name: app-config-values
           env:
           - name: POSTGRES_HOST
             valueFrom:

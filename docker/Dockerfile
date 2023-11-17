@@ -120,7 +120,7 @@ RUN chmod -R a+r ./dynamic-plugins/ ./install-dynamic-plugins.py; \
   rm -fr dynamic-plugins-root && cp -R dynamic-plugins/dist/ dynamic-plugins-root
 
 # Add Red Hat IT Certificate Authority to avoid self-signed certificate errors
-RUN curl https://password.corp.redhat.com/RH-IT-Root-CA.crt > /etc/pki/ca-trust/source/anchors/RH-IT-Root-CA.crt \
+RUN curl https://certs.corp.redhat.com/RH-IT-Root-CA.crt > /etc/pki/ca-trust/source/anchors/RH-IT-Root-CA.crt \
   && update-ca-trust extract
 
 # The fix-permissions script is important when operating in environments that dynamically use a random UID at runtime, such as OpenShift.

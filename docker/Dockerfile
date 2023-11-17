@@ -77,10 +77,10 @@ FROM skeleton AS cleanup
 
 # Upstream only - copy the install dependencies from the build stage and context
 COPY --from=build $CONTAINER_SOURCE/yarn.lock \
-     $CONTAINER_SOURCE/package.json \
-     $CONTAINER_SOURCE/packages/backend/dist/skeleton.tar.gz \
-     $CONTAINER_SOURCE/packages/backend/dist/bundle.tar.gz \
-     ./
+  $CONTAINER_SOURCE/package.json \
+  $CONTAINER_SOURCE/packages/backend/dist/skeleton.tar.gz \
+  $CONTAINER_SOURCE/packages/backend/dist/bundle.tar.gz \
+  ./
 ENV TARBALL_PATH=.
 RUN tar xzf $TARBALL_PATH/skeleton.tar.gz; tar xzf $TARBALL_PATH/bundle.tar.gz; \
   rm -f $TARBALL_PATH/skeleton.tar.gz $TARBALL_PATH/bundle.tar.gz
@@ -118,6 +118,10 @@ COPY docker/install-dynamic-plugins.py docker/install-dynamic-plugins.sh ./
 RUN chmod -R a+r ./dynamic-plugins/ ./install-dynamic-plugins.py; \
   chmod -R a+rx ./install-dynamic-plugins.sh; \
   rm -fr dynamic-plugins-root && cp -R dynamic-plugins/dist/ dynamic-plugins-root
+
+# Add Red Hat IT Certificate Authority to avoid self-signed certificate errors
+RUN curl https://password.corp.redhat.com/RH-IT-Root-CA.crt > /etc/pki/ca-trust/source/anchors/RH-IT-Root-CA.crt \
+  && update-ca-trust extract
 
 # The fix-permissions script is important when operating in environments that dynamically use a random UID at runtime, such as OpenShift.
 # The upstream backstage image does not account for this and it causes the container to fail at runtime.

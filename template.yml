@@ -55,7 +55,7 @@ objects:
             secretName: backstage-app-config
         - name: catalog-data
           emptyDir: {}
-        init-containers:
+        initContainers:
         - name: catalog-fetcher
           image: quay.io/containers/podman:latest
           imagePullPolicy: IfNotPresent

@@ -10,6 +10,8 @@ parameters:
   value: latest
 - name: DB_SECRET_NAME
   value: backstage-db
+- name: CATALOG_IMAGE
+- name: CATALOG_TAG
 objects:
 - apiVersion: v1
   kind: ServiceAccount
@@ -51,6 +53,26 @@ objects:
         - name: app-config
           secret:
             secretName: backstage-app-config
+        - name: catalog-data
+          emptyDir: {}
+        init-containers:
+        - name: catalog-fetcher
+          image: quay.io/containers/podman:latest
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: 10Mi
+              cpu: 15m
+            limits:
+              memory: 20Mi
+          command: ["/bin/sh", "-c"]
+          args: |
+            # podman login <creds>
+            podman run --name data ${CATALOG_IMAGE}:${CATALOG_TAG} /bin/sh 2>/dev/null
+            podman export data | tar xf - -C /app
+          volumeMounts:
+          - name: catalog-data
+            mountPath: /app/public
         containers:
         - name: backend
           image: ${IMAGE}:${IMAGE_TAG}
@@ -98,4 +120,7 @@ objects:
           - name: app-config
             mountPath: /app/app-config.yaml
             subPath: app-config.yaml
+            readOnly: true
+          - name: catalog-data
+            mountPath: /app/public
             readOnly: true

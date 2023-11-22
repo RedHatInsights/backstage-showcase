@@ -65,11 +65,9 @@ objects:
               cpu: 15m
             limits:
               memory: 20Mi
-          command: ["/bin/sh", "-c"]
-          args: |
+          command: ["/bin/sh"]
             # podman login <creds>
-            podman run --name data ${CATALOG_IMAGE}:${CATALOG_TAG} /bin/sh 2>/dev/null
-            podman export data | tar xf - -C /app
+          args: ["-c", "podman run --name data ${CATALOG_IMAGE}:${CATALOG_TAG} /bin/sh 2>/dev/null ; podman export data | tar xf - -C /app"]
           volumeMounts:
           - name: catalog-data
             mountPath: /app/public

@@ -7,7 +7,7 @@ import { ScmIntegrations } from '@backstage/integration';
 import {
   createBuiltinActions,
   createRouter,
-} from '@backstage/plugin-scaffolder-backend';
+} from 'redhatinsights-plugin-scaffolder-backend';
 import type { Router } from 'express';
 
 export default async function createPlugin(

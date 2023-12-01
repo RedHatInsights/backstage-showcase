@@ -57,6 +57,10 @@ objects:
             secretName: backstage-app-config
         - name: catalog-data
           emptyDir: {}
+        - name: github-integration
+          secret:
+            secretName: github-app-credentials
+            optional: true
         initContainers:
         - name: catalog-fetcher
           image: ${CATALOG_IMAGE}:${CATALOG_TAG}
@@ -123,4 +127,7 @@ objects:
             readOnly: true
           - name: catalog-data
             mountPath: /app/public
+            readOnly: true
+          - name: github-integration
+            mountPath: /app/github
             readOnly: true

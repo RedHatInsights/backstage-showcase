@@ -57,8 +57,9 @@ objects:
           emptyDir: {}
         initContainers:
         - name: catalog-fetcher
-          image: quay.io/containers/podman:latest
-          imagePullPolicy: IfNotPresent
+          image: ${CATALOG_IMAGE}:${CATALOG_TAG}
+          # always because it may be latest
+          imagePullPolicy: Always
           resources:
             requests:
               memory: 10Mi
@@ -66,8 +67,7 @@ objects:
             limits:
               memory: 20Mi
           command: ["/bin/sh"]
-            # podman login <creds>
-          args: ["-c", "podman run --name data ${CATALOG_IMAGE}:${CATALOG_TAG} /bin/sh 2>/dev/null ; podman export data | tar xf - -C /app"]
+          args: ["-c", "cp -r /app/catalog/* /app/public"]
           volumeMounts:
           - name: catalog-data
             mountPath: /app/public

@@ -106,7 +106,7 @@ WORKDIR $CONTAINER_SOURCE/
 # Upstream only - install techdocs dependencies (PyPI source tarballs not required)
 RUN microdnf update -y && \
   microdnf install -y python3 python3-pip && \
-  pip3 install mkdocs-techdocs-core==1.2.3 && \
+  pip3 install mkdocs-techdocs-core==1.2.3 pymdown-extensions markdown-callouts && \
   microdnf clean all
 
 # Upstream only - copy from cleanup stage

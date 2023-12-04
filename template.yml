@@ -4,130 +4,130 @@ kind: Template
 metadata:
   name: backstage
 parameters:
-- name: IMAGE
-  value: quay.io/janus-idp/redhat-backstage-build
-- name: IMAGE_TAG
-  value: latest
-- name: DB_SECRET_NAME
-  value: backstage-db
-- name: CATALOG_IMAGE
-- name: CATALOG_TAG
+  - name: IMAGE
+    value: quay.io/janus-idp/redhat-backstage-build
+  - name: IMAGE_TAG
+    value: latest
+  - name: DB_SECRET_NAME
+    value: backstage-db
+  - name: CATALOG_IMAGE
+  - name: CATALOG_TAG
 objects:
-- apiVersion: v1
-  kind: ServiceAccount
-  metadata:
-    name: backstage
-  imagePullSecrets:
-  - name: quay.io
-- apiVersion: v1
-  kind: Service
-  metadata:
-    name: backstage
-  labels:
-    app.kubernetes.io/name: backstage
-  spec:
-    type: ClusterIP
-    ports:
-      - name: http-backend
-        port: 7007
-        targetPort: backend
-        protocol: TCP
-    selector:
-      app.kubernetes.io/name: backstage
-- apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: backstage
+  - apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: backstage
+    imagePullSecrets:
+      - name: quay.io
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: backstage
     labels:
       app.kubernetes.io/name: backstage
-  spec:
-    replicas: 1
-    selector:
-      matchLabels:
+    spec:
+      type: ClusterIP
+      ports:
+        - name: http-backend
+          port: 7007
+          targetPort: backend
+          protocol: TCP
+      selector:
         app.kubernetes.io/name: backstage
-    template:
-      metadata:
-        labels:
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: backstage
+      labels:
+        app.kubernetes.io/name: backstage
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
           app.kubernetes.io/name: backstage
-      spec:
-        serviceAccountName: backstage
-        volumes:
-        - name: app-config
-          secret:
-            secretName: backstage-app-config
-        - name: catalog-data
-          emptyDir: {}
-        - name: github-integration
-          secret:
-            secretName: github-app-credentials
-            optional: true
-        initContainers:
-        - name: catalog-fetcher
-          image: ${CATALOG_IMAGE}:${CATALOG_TAG}
-          # always because it may be latest
-          imagePullPolicy: Always
-          resources:
-            requests:
-              memory: 10Mi
-              cpu: 15m
-            limits:
-              memory: 20Mi
-          command: ["/bin/sh"]
-          args: ["-c", "cp -r /app/catalog/* /app/public"]
-          volumeMounts:
-          - name: catalog-data
-            mountPath: /app/public
-        containers:
-        - name: backend
-          image: ${IMAGE}:${IMAGE_TAG}
-          imagePullPolicy: "Always"
-          command:
-          - node
-          - packages/backend
-          args:
-          - --config
-          - /app/app-config.yaml
-          # - /opt/app-root/src/app-config.yaml
-          env:
-          - name: PGSSLMODE
-            value: allow
-          - name: POSTGRES_HOST
-            valueFrom:
-              secretKeyRef:
-                name: ${DB_SECRET_NAME}
-                key: db.host
-          - name: POSTGRES_DB
-            valueFrom:
-              secretKeyRef:
-                name: ${DB_SECRET_NAME}
-                key: db.name
-          - name: POSTGRES_PORT
-            valueFrom:
-              secretKeyRef:
-                name: ${DB_SECRET_NAME}
-                key: db.port
-          - name: POSTGRES_USER
-            valueFrom:
-              secretKeyRef:
-                name: ${DB_SECRET_NAME}
-                key: db.user
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: ${DB_SECRET_NAME}
-                key: db.password
-          ports:
-          - name: backend
-            containerPort: 7007
-            protocol: TCP
-          volumeMounts:
-          - name: app-config
-            mountPath: /app/app-config.yaml
-            subPath: app-config.yaml
-            readOnly: true
-          - name: catalog-data
-            mountPath: /app/public
-            readOnly: true
-          - name: github-integration
-            mountPath: /app/github
-            readOnly: true
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: backstage
+        spec:
+          serviceAccountName: backstage
+          volumes:
+            - name: app-config
+              secret:
+                secretName: backstage-app-config
+            - name: catalog-data
+              emptyDir: {}
+            - name: github-integration
+              secret:
+                secretName: github-app-credentials
+                optional: true
+          initContainers:
+            - name: catalog-fetcher
+              image: ${CATALOG_IMAGE}:${CATALOG_TAG}
+              # always because it may be latest
+              imagePullPolicy: Always
+              resources:
+                requests:
+                  memory: 10Mi
+                  cpu: 15m
+                limits:
+                  memory: 20Mi
+              command: ['/bin/sh']
+              args: ['-c', 'cp -r /app/catalog/* /app/public']
+              volumeMounts:
+                - name: catalog-data
+                  mountPath: /app/public
+          containers:
+            - name: backend
+              image: ${IMAGE}:${IMAGE_TAG}
+              imagePullPolicy: 'Always'
+              command:
+                - node
+                - packages/backend
+              args:
+                - --config
+                - /app/app-config.yaml
+              # - /opt/app-root/src/app-config.yaml
+              env:
+                - name: PGSSLMODE
+                  value: allow
+                - name: POSTGRES_HOST
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${DB_SECRET_NAME}
+                      key: db.host
+                - name: POSTGRES_DB
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${DB_SECRET_NAME}
+                      key: db.name
+                - name: POSTGRES_PORT
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${DB_SECRET_NAME}
+                      key: db.port
+                - name: POSTGRES_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${DB_SECRET_NAME}
+                      key: db.user
+                - name: POSTGRES_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${DB_SECRET_NAME}
+                      key: db.password
+              ports:
+                - name: backend
+                  containerPort: 7007
+                  protocol: TCP
+              volumeMounts:
+                - name: app-config
+                  mountPath: /app/app-config.yaml
+                  subPath: app-config.yaml
+                  readOnly: true
+                - name: catalog-data
+                  mountPath: /app/public
+                  readOnly: true
+                - name: github-integration
+                  mountPath: /app/github
+                  readOnly: true

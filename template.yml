@@ -73,7 +73,7 @@ objects:
                 limits:
                   memory: 20Mi
               command: ['/bin/sh']
-              args: ['-c', 'cp -r /app/catalog/* /app/public']
+              args: ['-c', 'cp -rv /app/catalog/* /app/public']
               volumeMounts:
                 - name: catalog-data
                   mountPath: /app/public

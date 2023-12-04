@@ -55,6 +55,9 @@ objects:
             - name: app-config
               secret:
                 secretName: backstage-app-config
+            - name: redhat-ca
+              secret:
+                secretName: redhat-ca
             - name: catalog-data
               emptyDir: {}
             - name: github-integration
@@ -116,6 +119,8 @@ objects:
                     secretKeyRef:
                       name: ${DB_SECRET_NAME}
                       key: db.password
+                - name: NODE_EXTRA_CA_CERTS
+                  value: /app/redhat-ca/2015-IT-Root-CA.pem
               ports:
                 - name: backend
                   containerPort: 7007
@@ -130,4 +135,7 @@ objects:
                   readOnly: true
                 - name: github-integration
                   mountPath: /app/github
+                  readOnly: true
+                - name: redhat-ca
+                  mountPath: /app/redhat-ca
                   readOnly: true

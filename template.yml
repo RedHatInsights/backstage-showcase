@@ -12,6 +12,11 @@ parameters:
     value: backstage-db
   - name: CATALOG_IMAGE
   - name: CATALOG_TAG
+  - name: GL_SECRET_NAME
+  - name: GITLAB_HOST
+  - name: GITLAB_TOKEN
+  - name: GITLAB_API_BASE_URL
+  - name: GITLAB_BASE_URL
 objects:
   - apiVersion: v1
     kind: ServiceAccount
@@ -119,6 +124,26 @@ objects:
                     secretKeyRef:
                       name: ${DB_SECRET_NAME}
                       key: db.password
+                - name: GITLAB_HOST
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${GL_SECRET_NAME}
+                      key: host
+                - name: GITLAB_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${GL_SECRET_NAME}
+                      key: token
+                - name: GITLAB_API_BASE_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${GL_SECRET_NAME}
+                      key: apiBaseUrl
+                - name: GITLAB_BASE_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${GL_SECRET_NAME}
+                      key: baseUrl
                 - name: NODE_EXTRA_CA_CERTS
                   value: /app/redhat-ca/2015-IT-Root-CA.pem
               ports:

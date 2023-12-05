@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "main": "dist/index.cjs.js",
   "types": "src/index.ts",
   "private": true,
@@ -28,7 +28,7 @@
     "@backstage/plugin-auth-node": "0.4.0",
     "@backstage/plugin-catalog-backend": "1.14.0",
     "@backstage/plugin-catalog-backend-module-openapi": "0.1.23",
-    "@internal/plugin-dynamic-plugins-info-backend": "0.1.0",
+    "@internal/plugin-dynamic-plugins-info-backend": "0.1.1",
     "@backstage/plugin-events-backend": "0.2.15",
     "@backstage/plugin-events-node": "0.2.15",
     "@backstage/plugin-permission-backend": "0.5.29",

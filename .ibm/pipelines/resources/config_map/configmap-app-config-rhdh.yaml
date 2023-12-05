@@ -7,10 +7,6 @@ data:
   app-config-rhdh.yaml: |
     app:
       title: Red Hat Developer Hub
-      analytics:
-        segment:
-          testMode: true
-          writeKey: temp
     backend:
       auth:
         keys:
@@ -48,14 +44,14 @@ data:
     proxy:
       skipInvalidProxies: true
       # endpoints: {}
-      endpoints: 
+      endpoints:
         # Other Proxies
         # customize developer hub instance
         '/developer-hub':
           target: ${DH_TARGET_URL}
           changeOrigin: true
           # Change to "false" in case of using self hosted cluster with a self-signed certificate
-          secure: true   
+          secure: true
         '/developer-hub/tech-radar':
           target: ${DH_TECHRADAR_TARGET_URL}
           changeOrigin: true
@@ -63,7 +59,7 @@ data:
           secure: true
 
     catalog:
-      providers:    
+      providers:
         githubOrg:
           default:
             id: development
@@ -132,7 +128,3 @@ data:
             - name: argoInstance2
               url: temp
               token: temp
-    enabled:
-      github: ${GITHUB_ENABLED}
-      kubernetes: ${K8S_ENABLED}
-      githubOrg: ${GITHUBORG_ENABLED}

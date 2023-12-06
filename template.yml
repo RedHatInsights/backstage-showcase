@@ -154,7 +154,7 @@ objects:
                 httpGet:
                   port: 7007
                   path: /healthcheck
-                  #schem: HTTP
+                  #scheme: HTTP
                   httpHeaders:
                     - name: User-Agent
                       value: Probe
@@ -164,7 +164,7 @@ objects:
                 httpGet:
                   port: 7007
                   path: /healthcheck
-                  #schem: HTTP
+                  #scheme: HTTP
                   initialDelaySeconds: 20
                   periodSeconds: 10
               volumeMounts:

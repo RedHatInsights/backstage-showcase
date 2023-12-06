@@ -150,6 +150,23 @@ objects:
                 - name: backend
                   containerPort: 7007
                   protocol: TCP
+              readinessProbe:
+                httpGet:
+                  port: 7007
+                  path: /healthcheck
+                  #scheme: HTTP
+                  httpHeaders:
+                    - name: User-Agent
+                      value: Probe
+                  initialDelaySeconds: 20
+                  periodSeconds: 10
+              livenessProbe:
+                httpGet:
+                  port: 7007
+                  path: /healthcheck
+                  #scheme: HTTP
+                  initialDelaySeconds: 20
+                  periodSeconds: 10
               volumeMounts:
                 - name: app-config
                   mountPath: /app/app-config.yaml

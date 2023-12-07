@@ -4,15 +4,33 @@ kind: Template
 metadata:
   name: backstage
 parameters:
+  - name: MEMORY_REQUEST
+    description: Memory request for the API pods.
+    value: "512Mi"
+  - name: MEMORY_LIMIT
+    description: Memory limit for the API pods.
+    value: "1Gi"
+  - name: CPU_REQUEST
+    description: CPU request for the API pods.
+    value: "200m"
+  - name: CPU_LIMIT
+    description: CPU limit for the API pods.
+    value: "1"
   - name: IMAGE
+    description: Image to use for backstage app
     value: quay.io/janus-idp/redhat-backstage-build
   - name: IMAGE_TAG
+    description: Image tag to use for backstage app
     value: latest
   - name: DB_SECRET_NAME
+    description: Name of the secret with DB configuration
     value: backstage-db
   - name: CATALOG_IMAGE
+    description: Image that contains catalog data
   - name: CATALOG_TAG
+    description: Image tag that contains catalog data
   - name: GL_SECRET_NAME
+    description: Name of the secret with GitLab configuration
   - name: GITLAB_HOST
   - name: GITLAB_TOKEN
   - name: GITLAB_API_BASE_URL
@@ -150,6 +168,13 @@ objects:
                 - name: backend
                   containerPort: 7007
                   protocol: TCP
+              resources:
+                requests:
+                  cpu: ${CPU_REQUEST}
+                  memory: ${MEMORY_REQUEST}
+                limits:
+                  cpu: ${CPU_LIMIT}
+                  memory: ${MEMORY_LIMIT}
               readinessProbe:
                 httpGet:
                   port: 7007

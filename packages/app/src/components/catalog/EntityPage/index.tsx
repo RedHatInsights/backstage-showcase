@@ -49,6 +49,7 @@ import {
   RELATION_PROVIDES_API,
 } from '@backstage/catalog-model';
 import Grid from '../Grid';
+import { WebRCAFetchComponent } from '@internal/plugin-web-rca';
 
 export const entityPage = (
   <EntityLayout>
@@ -462,6 +463,32 @@ export const entityPage = (
               }}
             >
               <EntityConsumedApisCard />
+            </Grid>
+          </EntitySwitch.Case>
+        </EntitySwitch>
+      ),
+    })}
+
+    {tab({
+      path: '/web-rca',
+      title: 'Web-RCA',
+      mountPoint: 'entity.page.web-rca',
+      if: e => isType('service')(e) && isKind('component')(e),
+      children: (
+        <EntitySwitch>
+          <EntitySwitch.Case
+            if={e => isType('service')(e) && isKind('component')(e)}
+          >
+            <Grid
+              item
+              sx={{
+                gridColumn: {
+                  lg: '1 / span 12',
+                  xs: '1 / -1',
+                },
+              }}
+            >
+              <WebRCAFetchComponent />
             </Grid>
           </EntitySwitch.Case>
         </EntitySwitch>

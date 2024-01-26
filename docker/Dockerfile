@@ -51,6 +51,7 @@ COPY $EXTERNAL_SOURCE_NESTED/packages/app/package.json ./packages/app/package.js
 COPY $EXTERNAL_SOURCE_NESTED/packages/backend/package.json ./packages/backend/package.json
 COPY $EXTERNAL_SOURCE_NESTED/plugins/scalprum-backend/package.json ./plugins/scalprum-backend/package.json
 COPY $EXTERNAL_SOURCE_NESTED/plugins/dynamic-plugins-info-backend/package.json ./plugins/dynamic-plugins-info-backend/package.json
+COPY $EXTERNAL_SOURCE_NESTED/plugins/web-rca/package.json ./plugins/web-rca/package.json
 
 RUN $YARN install --frozen-lockfile --network-timeout 600000
 
@@ -64,7 +65,6 @@ RUN rm app-config.yaml && mv app-config.example.yaml app-config.yaml
 
 # hadolint ignore=DL3059,DL4006,SC2086
 RUN $YARN build --filter=backend && \
-
   # Build dynamic plugins: split commands for consistency with downstream
   $YARN --cwd ./dynamic-plugins/imports export-dynamic --no-install && \
   # Already imported the packages above; need to `yarn install` on the `dist-dynamic` sub-folder for backend plugins

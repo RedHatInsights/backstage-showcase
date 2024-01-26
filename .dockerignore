@@ -5,6 +5,7 @@
 plugins
 !plugins/scalprum-backend
 !plugins/dynamic-plugins-info-backend
+!plugins/web-rca
 *.local.yaml
 coverage
 dist-types

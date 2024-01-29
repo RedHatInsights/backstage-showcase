@@ -80,7 +80,7 @@ export const DenseTable = ({
 
   const data = incidents.items.map(inc => {
     return {
-      //incident_id: <a target="_blank" rel="noreferrer" href={`https://web-rca.stage.devshift.net/incident/${inc.incident_id}/events`}>{inc.incident_id}</a>,
+      // incident_id: <a target="_blank" rel="noreferrer" href={`https://web-rca.stage.devshift.net/incident/${inc.incident_id}/events`}>{inc.incident_id}</a>,
       incident_id: (
         <a
           target="_blank"

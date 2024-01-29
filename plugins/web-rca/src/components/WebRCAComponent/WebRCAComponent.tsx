@@ -34,7 +34,7 @@ export const WebRCAComponent = () => (
           </form>
         </Grid>
         <Grid item>
-          <WebRCAFetchComponent product={'quay'} />
+          <WebRCAFetchComponent product="quay" />
         </Grid>
       </Grid>
     </Content>

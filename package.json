@@ -55,7 +55,8 @@
   },
   "resolutions": {
     "@types/react": "17.0.69",
-    "@types/react-dom": "17.0.22"
+    "@types/react-dom": "17.0.22",
+    "eslint-plugin-jest": "27.6.3"
   },
   "jest": {
     "testTimeout": 20000

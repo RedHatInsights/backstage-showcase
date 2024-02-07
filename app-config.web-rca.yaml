@@ -154,6 +154,17 @@ enabled:
 dynamicPlugins:
   rootDirectory: dynamic-plugins-root
   frontend:
+    plugin-web-rca:
+      mountPoints:
+        - mountPoint: 'entity.page.overview/cards'
+          importName: WebRCAFetchComponent
+          config:
+            layout:
+              gridColumn: "1 / span 12"
+            if:
+              allOf:
+                - isKind: component
+                - isType: service
     backstage.plugin-azure-devops:
       mountPoints:
         - mountPoint: entity.page.ci/cards

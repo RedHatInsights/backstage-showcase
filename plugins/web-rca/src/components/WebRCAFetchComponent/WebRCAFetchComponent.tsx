@@ -7,6 +7,7 @@ import {
 } from '@backstage/core-components';
 import useAsync from 'react-use/lib/useAsync';
 import { useApi, configApiRef } from '@backstage/core-plugin-api';
+import '@backstage/plugin-user-settings';
 import { Typography } from '@material-ui/core';
 import { InfoCard } from '@backstage/core-components';
 import { useEntity } from '@backstage/plugin-catalog-react';
